@@ -16,6 +16,8 @@ import { Route as MontarPlanoRouteImport } from './routes/montar-plano'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminClientesRouteImport } from './routes/_authenticated/admin.clientes'
+import { Route as AuthenticatedAdminLeadsRouteImport } from './routes/_authenticated/admin.leads'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -51,6 +53,17 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminClientesRoute =
+  AuthenticatedAdminClientesRouteImport.update({
+    id: '/clientes',
+    path: '/clientes',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminLeadsRoute = AuthenticatedAdminLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -58,6 +71,8 @@ export interface FileRoutesByFullPath {
   '/montar-plano': typeof MontarPlanoRoute
   '/obrigado': typeof ObrigadoRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/admin/clientes': typeof AuthenticatedAdminClientesRoute
+  '/admin/leads': typeof AuthenticatedAdminLeadsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -65,6 +80,8 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/montar-plano': typeof MontarPlanoRoute
   '/obrigado': typeof ObrigadoRoute
+  '/admin/clientes': typeof AuthenticatedAdminClientesRoute
+  '/admin/leads': typeof AuthenticatedAdminLeadsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -75,14 +92,30 @@ export interface FileRoutesById {
   '/montar-plano': typeof MontarPlanoRoute
   '/obrigado': typeof ObrigadoRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/admin/clientes': typeof AuthenticatedAdminClientesRoute
+  '/_authenticated/admin/leads': typeof AuthenticatedAdminLeadsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/montar-plano' | '/obrigado' | '/admin' | '/admin/'
+    | '/'
+    | '/auth'
+    | '/montar-plano'
+    | '/obrigado'
+    | '/admin'
+    | '/admin/clientes'
+    | '/admin/leads'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/montar-plano' | '/obrigado' | '/admin'
+  to:
+    | '/'
+    | '/auth'
+    | '/montar-plano'
+    | '/obrigado'
+    | '/admin/clientes'
+    | '/admin/leads'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -91,6 +124,8 @@ export interface FileRouteTypes {
     | '/montar-plano'
     | '/obrigado'
     | '/_authenticated/admin'
+    | '/_authenticated/admin/clientes'
+    | '/_authenticated/admin/leads'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -153,14 +188,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/clientes': {
+      id: '/_authenticated/admin/clientes'
+      path: '/clientes'
+      fullPath: '/admin/clientes'
+      preLoaderRoute: typeof AuthenticatedAdminClientesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/leads': {
+      id: '/_authenticated/admin/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AuthenticatedAdminLeadsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminClientesRoute: typeof AuthenticatedAdminClientesRoute
+  AuthenticatedAdminLeadsRoute: typeof AuthenticatedAdminLeadsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminClientesRoute: AuthenticatedAdminClientesRoute,
+  AuthenticatedAdminLeadsRoute: AuthenticatedAdminLeadsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
