@@ -10,33 +10,157 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as MontarPlanoRouteImport } from './routes/montar-plano'
+import { Route as ObrigadoRouteImport } from './routes/obrigado'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminClientesRouteImport } from './routes/_authenticated/admin.clientes'
+import { Route as AuthenticatedAdminLeadsRouteImport } from './routes/_authenticated/admin.leads'
+import { Route as AuthenticatedAdminLembretesRouteImport } from './routes/_authenticated/admin.lembretes'
+import { Route as AuthenticatedAdminVisitasRouteImport } from './routes/_authenticated/admin.visitas'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MontarPlanoRoute = MontarPlanoRouteImport.update({
+  id: '/montar-plano',
+  path: '/montar-plano',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObrigadoRoute = ObrigadoRouteImport.update({
+  id: '/obrigado',
+  path: '/obrigado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminClientesRoute =
+  AuthenticatedAdminClientesRouteImport.update({
+    id: '/clientes',
+    path: '/clientes',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminLeadsRoute = AuthenticatedAdminLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminLembretesRoute =
+  AuthenticatedAdminLembretesRouteImport.update({
+    id: '/lembretes',
+    path: '/lembretes',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminVisitasRoute =
+  AuthenticatedAdminVisitasRouteImport.update({
+    id: '/visitas',
+    path: '/visitas',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/montar-plano': typeof MontarPlanoRoute
+  '/obrigado': typeof ObrigadoRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/admin/clientes': typeof AuthenticatedAdminClientesRoute
+  '/admin/leads': typeof AuthenticatedAdminLeadsRoute
+  '/admin/lembretes': typeof AuthenticatedAdminLembretesRoute
+  '/admin/visitas': typeof AuthenticatedAdminVisitasRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/montar-plano': typeof MontarPlanoRoute
+  '/obrigado': typeof ObrigadoRoute
+  '/admin/clientes': typeof AuthenticatedAdminClientesRoute
+  '/admin/leads': typeof AuthenticatedAdminLeadsRoute
+  '/admin/lembretes': typeof AuthenticatedAdminLembretesRoute
+  '/admin/visitas': typeof AuthenticatedAdminVisitasRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/montar-plano': typeof MontarPlanoRoute
+  '/obrigado': typeof ObrigadoRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/admin/clientes': typeof AuthenticatedAdminClientesRoute
+  '/_authenticated/admin/leads': typeof AuthenticatedAdminLeadsRoute
+  '/_authenticated/admin/lembretes': typeof AuthenticatedAdminLembretesRoute
+  '/_authenticated/admin/visitas': typeof AuthenticatedAdminVisitasRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/montar-plano'
+    | '/obrigado'
+    | '/admin'
+    | '/admin/clientes'
+    | '/admin/leads'
+    | '/admin/lembretes'
+    | '/admin/visitas'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/montar-plano'
+    | '/obrigado'
+    | '/admin/clientes'
+    | '/admin/leads'
+    | '/admin/lembretes'
+    | '/admin/visitas'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/montar-plano'
+    | '/obrigado'
+    | '/_authenticated/admin'
+    | '/_authenticated/admin/clientes'
+    | '/_authenticated/admin/leads'
+    | '/_authenticated/admin/lembretes'
+    | '/_authenticated/admin/visitas'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  MontarPlanoRoute: typeof MontarPlanoRoute
+  ObrigadoRoute: typeof ObrigadoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +172,115 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/montar-plano': {
+      id: '/montar-plano'
+      path: '/montar-plano'
+      fullPath: '/montar-plano'
+      preLoaderRoute: typeof MontarPlanoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obrigado': {
+      id: '/obrigado'
+      path: '/obrigado'
+      fullPath: '/obrigado'
+      preLoaderRoute: typeof ObrigadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/clientes': {
+      id: '/_authenticated/admin/clientes'
+      path: '/clientes'
+      fullPath: '/admin/clientes'
+      preLoaderRoute: typeof AuthenticatedAdminClientesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/leads': {
+      id: '/_authenticated/admin/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AuthenticatedAdminLeadsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/lembretes': {
+      id: '/_authenticated/admin/lembretes'
+      path: '/lembretes'
+      fullPath: '/admin/lembretes'
+      preLoaderRoute: typeof AuthenticatedAdminLembretesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/visitas': {
+      id: '/_authenticated/admin/visitas'
+      path: '/visitas'
+      fullPath: '/admin/visitas'
+      preLoaderRoute: typeof AuthenticatedAdminVisitasRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminClientesRoute: typeof AuthenticatedAdminClientesRoute
+  AuthenticatedAdminLeadsRoute: typeof AuthenticatedAdminLeadsRoute
+  AuthenticatedAdminLembretesRoute: typeof AuthenticatedAdminLembretesRoute
+  AuthenticatedAdminVisitasRoute: typeof AuthenticatedAdminVisitasRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminClientesRoute: AuthenticatedAdminClientesRoute,
+  AuthenticatedAdminLeadsRoute: AuthenticatedAdminLeadsRoute,
+  AuthenticatedAdminLembretesRoute: AuthenticatedAdminLembretesRoute,
+  AuthenticatedAdminVisitasRoute: AuthenticatedAdminVisitasRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  MontarPlanoRoute: MontarPlanoRoute,
+  ObrigadoRoute: ObrigadoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
