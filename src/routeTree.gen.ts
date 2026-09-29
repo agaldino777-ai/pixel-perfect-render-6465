@@ -18,6 +18,8 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminClientesRouteImport } from './routes/_authenticated/admin.clientes'
 import { Route as AuthenticatedAdminLeadsRouteImport } from './routes/_authenticated/admin.leads'
+import { Route as AuthenticatedAdminLembretesRouteImport } from './routes/_authenticated/admin.lembretes'
+import { Route as AuthenticatedAdminVisitasRouteImport } from './routes/_authenticated/admin.visitas'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +66,18 @@ const AuthenticatedAdminLeadsRoute = AuthenticatedAdminLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminLembretesRoute =
+  AuthenticatedAdminLembretesRouteImport.update({
+    id: '/lembretes',
+    path: '/lembretes',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminVisitasRoute =
+  AuthenticatedAdminVisitasRouteImport.update({
+    id: '/visitas',
+    path: '/visitas',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -73,6 +87,8 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/admin/clientes': typeof AuthenticatedAdminClientesRoute
   '/admin/leads': typeof AuthenticatedAdminLeadsRoute
+  '/admin/lembretes': typeof AuthenticatedAdminLembretesRoute
+  '/admin/visitas': typeof AuthenticatedAdminVisitasRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -82,6 +98,8 @@ export interface FileRoutesByTo {
   '/obrigado': typeof ObrigadoRoute
   '/admin/clientes': typeof AuthenticatedAdminClientesRoute
   '/admin/leads': typeof AuthenticatedAdminLeadsRoute
+  '/admin/lembretes': typeof AuthenticatedAdminLembretesRoute
+  '/admin/visitas': typeof AuthenticatedAdminVisitasRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -94,6 +112,8 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/admin/clientes': typeof AuthenticatedAdminClientesRoute
   '/_authenticated/admin/leads': typeof AuthenticatedAdminLeadsRoute
+  '/_authenticated/admin/lembretes': typeof AuthenticatedAdminLembretesRoute
+  '/_authenticated/admin/visitas': typeof AuthenticatedAdminVisitasRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -106,6 +126,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/clientes'
     | '/admin/leads'
+    | '/admin/lembretes'
+    | '/admin/visitas'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -115,6 +137,8 @@ export interface FileRouteTypes {
     | '/obrigado'
     | '/admin/clientes'
     | '/admin/leads'
+    | '/admin/lembretes'
+    | '/admin/visitas'
     | '/admin'
   id:
     | '__root__'
@@ -126,6 +150,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/admin/clientes'
     | '/_authenticated/admin/leads'
+    | '/_authenticated/admin/lembretes'
+    | '/_authenticated/admin/visitas'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -202,18 +228,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminLeadsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/lembretes': {
+      id: '/_authenticated/admin/lembretes'
+      path: '/lembretes'
+      fullPath: '/admin/lembretes'
+      preLoaderRoute: typeof AuthenticatedAdminLembretesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/visitas': {
+      id: '/_authenticated/admin/visitas'
+      path: '/visitas'
+      fullPath: '/admin/visitas'
+      preLoaderRoute: typeof AuthenticatedAdminVisitasRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminClientesRoute: typeof AuthenticatedAdminClientesRoute
   AuthenticatedAdminLeadsRoute: typeof AuthenticatedAdminLeadsRoute
+  AuthenticatedAdminLembretesRoute: typeof AuthenticatedAdminLembretesRoute
+  AuthenticatedAdminVisitasRoute: typeof AuthenticatedAdminVisitasRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminClientesRoute: AuthenticatedAdminClientesRoute,
   AuthenticatedAdminLeadsRoute: AuthenticatedAdminLeadsRoute,
+  AuthenticatedAdminLembretesRoute: AuthenticatedAdminLembretesRoute,
+  AuthenticatedAdminVisitasRoute: AuthenticatedAdminVisitasRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
