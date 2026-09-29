@@ -14,16 +14,198 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      aparelhos: {
+        Row: {
+          apelido: string
+          btus: number
+          cliente_id: string
+          created_at: string
+          id: string
+          ultima_limpeza: string | null
+        }
+        Insert: {
+          apelido?: string
+          btus?: number
+          cliente_id: string
+          created_at?: string
+          id?: string
+          ultima_limpeza?: string | null
+        }
+        Update: {
+          apelido?: string
+          btus?: number
+          cliente_id?: string
+          created_at?: string
+          id?: string
+          ultima_limpeza?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "aparelhos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clientes: {
+        Row: {
+          bairro: string
+          created_at: string
+          data_inicio: string
+          id: string
+          nome: string
+          status: Database["public"]["Enums"]["assinatura_status"]
+          whatsapp: string
+        }
+        Insert: {
+          bairro: string
+          created_at?: string
+          data_inicio?: string
+          id?: string
+          nome: string
+          status?: Database["public"]["Enums"]["assinatura_status"]
+          whatsapp: string
+        }
+        Update: {
+          bairro?: string
+          created_at?: string
+          data_inicio?: string
+          id?: string
+          nome?: string
+          status?: Database["public"]["Enums"]["assinatura_status"]
+          whatsapp?: string
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          bairro: string
+          btus: string
+          created_at: string
+          id: string
+          nome: string
+          qtd_aparelhos: number
+          status: Database["public"]["Enums"]["lead_status"]
+          ultima_limpeza: string | null
+          ultima_limpeza_desconhecida: boolean
+          whatsapp: string
+        }
+        Insert: {
+          bairro: string
+          btus?: string
+          created_at?: string
+          id?: string
+          nome: string
+          qtd_aparelhos?: number
+          status?: Database["public"]["Enums"]["lead_status"]
+          ultima_limpeza?: string | null
+          ultima_limpeza_desconhecida?: boolean
+          whatsapp: string
+        }
+        Update: {
+          bairro?: string
+          btus?: string
+          created_at?: string
+          id?: string
+          nome?: string
+          qtd_aparelhos?: number
+          status?: Database["public"]["Enums"]["lead_status"]
+          ultima_limpeza?: string | null
+          ultima_limpeza_desconhecida?: boolean
+          whatsapp?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      visitas: {
+        Row: {
+          aparelho_id: string | null
+          cliente_id: string
+          created_at: string
+          data: string
+          id: string
+          observacoes: string
+          status: Database["public"]["Enums"]["visita_status"]
+          tecnico: string
+        }
+        Insert: {
+          aparelho_id?: string | null
+          cliente_id: string
+          created_at?: string
+          data: string
+          id?: string
+          observacoes?: string
+          status?: Database["public"]["Enums"]["visita_status"]
+          tecnico?: string
+        }
+        Update: {
+          aparelho_id?: string | null
+          cliente_id?: string
+          created_at?: string
+          data?: string
+          id?: string
+          observacoes?: string
+          status?: Database["public"]["Enums"]["visita_status"]
+          tecnico?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visitas_aparelho_id_fkey"
+            columns: ["aparelho_id"]
+            isOneToOne: false
+            referencedRelation: "aparelhos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visitas_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      claim_admin: { Args: never; Returns: boolean }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
+      assinatura_status: "ativa" | "cancelada"
+      lead_status: "novo" | "contatado" | "fechado" | "perdido"
+      visita_status: "agendada" | "feita" | "cancelada"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +332,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+      assinatura_status: ["ativa", "cancelada"],
+      lead_status: ["novo", "contatado", "fechado", "perdido"],
+      visita_status: ["agendada", "feita", "cancelada"],
+    },
   },
 } as const
